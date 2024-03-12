@@ -6,7 +6,10 @@
 
 
 double pown(double value, uint16_t n) {
-  return std::pow(value, n);
+  double p = 1;
+  for ( ; n > 0; --n )
+    p *= value;
+  return p;
 }
 
 uint64_t fact(uint16_t n) {
@@ -22,26 +25,25 @@ double calcItem(double x, uint16_t n) {
 }
 
 double expn(double x, uint16_t count) {
-    double sum = 0.0;
-    for (uint16_t n = 0; n < count; ++n) {
-        sum += calcItem(x, n);
+    double sum = 2;
+    for ( ; count > 1; count-- ) {
+        sum += calcItem(x, count);
     }
     return sum;
 }
 
 double sinn(double x, uint16_t count) {
-    double sum = 0.0;
-    for (uint16_t n = 0; n < count; ++n) {
-        sum += (n % 2 == 0 ? 1 : -1) * calcItem(x, 2*n+1);
+    double result = x;
+    for (uint16_t k = 2; k <= count; k++) {
+        result += pown((-1.0), k - 1) * calcItem(x, (k * 2) - 1);
     }
-    return sum;
-
+    return result;
 }
 
 double cosn(double x, uint16_t count) {
-    double sum = 0.0;
-    for (uint16_t n = 0; n < count; ++n) {
-        sum += (n % 2 == 0 ? 1 : -1) * calcItem(x, 2*n);
+    double result = 1.0;
+    for (uint16_t k = 2; k <= count; k++) {
+        result += pown((-1.0), k - 1) * calcItem(x, (k * 2) - 2);
     }
-    return sum;
+    return result;
 }
